@@ -25,26 +25,16 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Aplicacion
             _polygonGenerator = new PolygonGenerator(); // Si la usas para más adelante
         }
 
-        public DrawingManager(IFillAlgorithm fillAlgorithm)
+        public DrawingManager(IFillAlgorithm fillAlgorithm, PictureBox canvas)
         {
-            _polygonGenerator = new PolygonGenerator(); // Si la usas para más adelante
+            _polygonGenerator = new PolygonGenerator();
             _fillAlgorithm = fillAlgorithm;
+            _buffer = new Bitmap(canvas.Width, canvas.Height); // Usa el tamaño real del canvas
         }
 
         public DrawingManager( ICircleAlgorithm circleAlgorithm)
         {
             _circleAlgorithm = circleAlgorithm;
-        }
-
-
-
-        public void InitializeBuffer(PictureBox canvas)
-        {
-            _buffer = new Bitmap(canvas.Width, canvas.Height);
-        }
-        public void RenderBuffer(PictureBox canvas)
-        {
-            canvas.Image = (Bitmap)_buffer.Clone();
         }
 
         public Bitmap GetBuffer()
@@ -56,19 +46,53 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Aplicacion
 
         public void DrawPolygon(Point2D center, float radius, int sides, PictureBox picCanvas)
         {
-            var polygon = _polygonGenerator.GenerateRegularPolygon(center, radius, sides); // Devuelve PolygonFigure
+            var polygon = _polygonGenerator.GenerateRegularPolygon(center, radius, sides);
+            _buffer = new Bitmap(picCanvas.Width, picCanvas.Height); // reinicia buffer
 
-            Graphics eGraph = picCanvas.CreateGraphics();
-            Pen ePen = new Pen(Color.Red, 3);
+            using (Graphics g = Graphics.FromImage(_buffer))
+            {
+                Pen pen = new Pen(Color.Red, 3);
+                Point[] points = polygon.vertices.Select(v => new Point((int)v.X, (int)v.Y)).ToArray();
+                g.DrawPolygon(pen, points);
+            }
 
-            Point[] points = polygon.vertices.Select(v => new Point( (int)v.X, (int)v.Y)).ToArray();
-
-            eGraph.DrawPolygon(ePen, points);
+            picCanvas.Image = _buffer; // mostrar en canvas
 
         }
 
+      
+        public async Task DrawFloodFill(Bitmap bitmap, Point2D startPoint, Color targetColor, Color fillColor, PictureBox canvas, DataGridView dgv, int delay)
+        {
+            dgv.Rows.Clear();
+
+            FloodFill floodFill = _fillAlgorithm as FloodFill;
+            if (floodFill == null)
+                throw new InvalidOperationException("El algoritmo de relleno debe ser FloodFill para usar este método.");
+
+            int count = 0;
+
+            await _fillAlgorithm.FillAsync(bitmap, startPoint, targetColor, fillColor, (point, bmp, pixels) =>
+            {
+                // Actualiza imagen
+                canvas.Image = (Bitmap)bmp.Clone();
+
+                // Actualiza tabla con el último pixel pintado
+                if (count < pixels.Count)
+                {
+                    var p = pixels[count];
+                    dgv.Rows.Add(count + 1, p.X.ToString("0.00"), p.Y.ToString("0.00"));
+                    count++;
+                }
+            }, delay);
+        }
+
+
         public async Task DrawPixelsAsync(Point2D start, Point2D end, PictureBox canvas, DataGridView dgv)
         {
+
+            if (start.X < 0 || start.Y < 0 || end.X < 0 || end.Y < 0)
+                throw new ArgumentException("Las coordenadas deben ser números positivos.");
+
             var pixels = _lineAlgorithm.DrawLine(start, end, Color.Black);
 
             using (Graphics g = canvas.CreateGraphics())
@@ -102,6 +126,9 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Aplicacion
 
         public async Task DrawPixelsAsync( float radius,PictureBox canvas, DataGridView dgv)
         {
+            if (radius <= 0)
+                throw new ArgumentException("El radio debe ser un número positivo.");
+
             float offsetX = canvas.Width / 2;
             float offsetY = canvas.Height / 2;
             Point2D center = new Point2D(offsetX, offsetY); 
@@ -127,8 +154,23 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Aplicacion
                     await Task.Delay(50);
                 }
             }
+
+        }
+
+        public void ClearAll(PictureBox canvas, DataGridView dgv = null)
+        {
+            if (_buffer != null)
+            {
+                _buffer.Dispose();
+                _buffer = null;
+            }
+            Bitmap blank = new Bitmap(canvas.Width, canvas.Height);
+            canvas.Image = blank;
+
+            dgv?.Rows.Clear();
+
         }
 
 
-    }
+        }
 }

@@ -133,7 +133,7 @@
             // fillToolStripMenuItem
             // 
             this.fillToolStripMenuItem.Name = "fillToolStripMenuItem";
-            this.fillToolStripMenuItem.Size = new System.Drawing.Size(205, 34);
+            this.fillToolStripMenuItem.Size = new System.Drawing.Size(224, 34);
             this.fillToolStripMenuItem.Text = "Flood Fill ";
             this.fillToolStripMenuItem.Click += new System.EventHandler(this.fillToolStripMenuItem_Click);
             // 
@@ -292,6 +292,7 @@
             this.btnLimpiar.TabIndex = 6;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // label1
             // 
@@ -311,11 +312,11 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(434, 45);
+            this.label2.Location = new System.Drawing.Point(361, 45);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 32);
+            this.label2.Size = new System.Drawing.Size(252, 32);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Gráfica";
+            this.label2.Text = "Bresenham Línea";
             // 
             // label3
             // 

@@ -330,9 +330,9 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label3.Location = new System.Drawing.Point(387, 40);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 32);
+            this.label3.Size = new System.Drawing.Size(160, 32);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Gráfica";
+            this.label3.Text = "DDA Línea";
             // 
             // label4
             // 

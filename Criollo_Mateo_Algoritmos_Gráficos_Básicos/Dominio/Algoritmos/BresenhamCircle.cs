@@ -13,6 +13,7 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
         public List<Pixel> DrawCircle(Point2D center, float radius, Color color)
         {
             List<Pixel> pixels = new List<Pixel>();
+            HashSet<string> uniqueKeys = new HashSet<string>();
 
             float x = 0;
             float y = radius;
@@ -20,15 +21,27 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
 
             while (x <= y)
             {
-                // 8 octantes del círculo
-                pixels.Add(new Pixel(new Point2D(center.X + x, center.Y + y), color));
-                pixels.Add(new Pixel(new Point2D(center.X - x, center.Y + y), color));
-                pixels.Add(new Pixel(new Point2D(center.X + x, center.Y - y), color));
-                pixels.Add(new Pixel(new Point2D(center.X - x, center.Y - y), color));
-                pixels.Add(new Pixel(new Point2D(center.X + y, center.Y + x), color));
-                pixels.Add(new Pixel(new Point2D(center.X - y, center.Y + x), color));
-                pixels.Add(new Pixel(new Point2D(center.X + y, center.Y - x), color));
-                pixels.Add(new Pixel(new Point2D(center.X - y, center.Y - x), color));
+                List<Point2D> octantPoints = new List<Point2D>
+    {
+        new Point2D(center.X + x, center.Y + y),
+        new Point2D(center.X - x, center.Y + y),
+        new Point2D(center.X + x, center.Y - y),
+        new Point2D(center.X - x, center.Y - y),
+        new Point2D(center.X + y, center.Y + x),
+        new Point2D(center.X - y, center.Y + x),
+        new Point2D(center.X + y, center.Y - x),
+        new Point2D(center.X - y, center.Y - x),
+    };
+
+                foreach (var p in octantPoints)
+                {
+                    string key = $"{p.X:0.00},{p.Y:0.00}";
+                    if (!uniqueKeys.Contains(key))
+                    {
+                        pixels.Add(new Pixel(p, color));
+                        uniqueKeys.Add(key);
+                    }
+                }
 
                 if (d < 0)
                 {
@@ -39,6 +52,7 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
                     d += 4 * (x - y) + 10;
                     y--;
                 }
+
                 x++;
             }
 

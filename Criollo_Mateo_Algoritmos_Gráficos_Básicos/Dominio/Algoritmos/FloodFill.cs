@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
 {
-    public class FloodFill: IFillAlgorithm
+    public class FloodFill : IFillAlgorithm
     {
-
-        public List<Point2D> Fill(Bitmap bitmap, Point2D startPoint, Color targetColor, Color replacementColor)
+        public async Task FillAsync(Bitmap bitmap,Point2D startPoint,Color targetColor, Color replacementColor,Action<Point2D, Bitmap, List<Point2D>> progressCallback,int delay)
         {
             Stack<Point2D> stack = new Stack<Point2D>();
+            HashSet<(int, int)> visited = new HashSet<(int, int)>();
             List<Point2D> filledPixels = new List<Point2D>();
 
             int width = bitmap.Width;
@@ -24,26 +24,31 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
             while (stack.Count > 0)
             {
                 Point2D p = stack.Pop();
+                int x = (int)p.X;
+                int y = (int)p.Y;
 
-                if (p.X < 0 || p.X >= width || p.Y < 0 || p.Y >= height)
-                    continue;
+                if (x < 0 || x >= width || y < 0 || y >= height) continue;
+                if (visited.Contains((x, y))) continue;
+                if (bitmap.GetPixel(x, y).ToArgb() != targetColor.ToArgb()) continue;
 
-                if (bitmap.GetPixel((int)p.X, (int)p.Y).ToArgb() != targetColor.ToArgb())
-                    continue;
+                bitmap.SetPixel(x, y, replacementColor);
+                filledPixels.Add(new Point2D(x, y));
+                visited.Add((x, y));
 
-                bitmap.SetPixel((int)p.X, (int)p.Y, replacementColor);
-                filledPixels.Add(p);
+                progressCallback?.Invoke(p, bitmap, filledPixels);
+                await Task.Delay(delay);
 
-                stack.Push(new Point2D(p.X + 1, p.Y));
-                stack.Push(new Point2D(p.X - 1, p.Y));
-                stack.Push(new Point2D(p.X, p.Y + 1));
-                stack.Push(new Point2D(p.X, p.Y - 1));
+                stack.Push(new Point2D(x - 1, y)); // Oeste
+                stack.Push(new Point2D(x, y + 1)); // Sur
+                stack.Push(new Point2D(x + 1, y)); // Este
+                stack.Push(new Point2D(x, y - 1)); // Norte
             }
-
-            return filledPixels;
         }
-
-
     }
 
+
+
+
 }
+
+

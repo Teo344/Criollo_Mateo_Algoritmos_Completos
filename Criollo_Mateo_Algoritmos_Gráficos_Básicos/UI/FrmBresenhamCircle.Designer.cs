@@ -42,11 +42,11 @@
             this.Table = new System.Windows.Forms.DataGridView();
             this.picCanvas = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtRadius = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtRadius = new System.Windows.Forms.TextBox();
             this.btnDibujar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -164,6 +164,25 @@
             this.panel1.Size = new System.Drawing.Size(223, 144);
             this.panel1.TabIndex = 4;
             // 
+            // txtRadius
+            // 
+            this.txtRadius.Location = new System.Drawing.Point(48, 70);
+            this.txtRadius.Name = "txtRadius";
+            this.txtRadius.Size = new System.Drawing.Size(130, 22);
+            this.txtRadius.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.Location = new System.Drawing.Point(82, 37);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 20);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Radio";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -182,11 +201,11 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(418, 44);
+            this.label2.Location = new System.Drawing.Point(345, 44);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 32);
+            this.label2.Size = new System.Drawing.Size(272, 32);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Datos";
+            this.label2.Text = "Bresenham Circulo";
             // 
             // label3
             // 
@@ -199,25 +218,6 @@
             this.label3.Size = new System.Drawing.Size(93, 32);
             this.label3.TabIndex = 7;
             this.label3.Text = "Datos";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(82, 37);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 20);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Radio";
-            // 
-            // txtRadius
-            // 
-            this.txtRadius.Location = new System.Drawing.Point(48, 70);
-            this.txtRadius.Name = "txtRadius";
-            this.txtRadius.Size = new System.Drawing.Size(130, 22);
-            this.txtRadius.TabIndex = 9;
             // 
             // btnDibujar
             // 
@@ -244,6 +244,7 @@
             this.btnLimpiar.TabIndex = 9;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // FrmBresenhamCircle
             // 

@@ -53,7 +53,7 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.UI
         private void floodToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
-            using (FrmHome frm = new FrmHome())
+            using (FrmFloodFill frm = new FrmFloodFill())
             {
                 frm.ShowDialog();
             }

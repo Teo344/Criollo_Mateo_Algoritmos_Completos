@@ -58,7 +58,13 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.UI
 
         private void floodFillToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            using (FrmFloodFill frm = new FrmFloodFill())
+            {
+                frm.ShowDialog();
+            }
 
+            this.Close();
         }
 
         private async void  btnDibujar_Click(object sender, EventArgs e)
@@ -77,5 +83,13 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.UI
             Table.Columns[1].Name = "X";
             Table.Columns[2].Name = "Y";
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+
+            drawingManager.ClearAll(picCanvas, Table);
+            txtRadius.Text = "";
+        }
+
     }
 }

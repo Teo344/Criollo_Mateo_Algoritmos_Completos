@@ -10,7 +10,8 @@ namespace Criollo_Mateo_Algoritmos_Gráficos_Básicos.Dominio.Algoritmos
 {
     public interface IFillAlgorithm
     {
-        List<Point2D> Fill(Bitmap bitmap, Point2D startPoint, Color targetColor, Color replacementColor);
+        Task FillAsync( Bitmap bitmap, Point2D startPoint, Color targetColor,Color replacementColor,Action<Point2D, Bitmap, List<Point2D>> progressCallback,int delay);
 
     }
 }
+
